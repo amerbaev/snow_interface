@@ -47,55 +47,51 @@ implementation
 uses Main;
 
 {$R *.dfm}
-// Правильный дробный разделитель
+//Right fraction divider
 procedure ReplacePoint(M: TStrings; numofvar: Integer);
 var
   i, pointpos: Integer;
 begin
   for i:=0 to numofvar-1 do
-  { меняем дробный разделитель с точки на запятую,
-  чтобы корректно перевелось во float }
+  { Replace divider from point to comma}
   begin
     pointpos:=pos('.',M.Strings[i]);
-    // если точка в начале, заменяем её на 0,
+    //If point in start then replace it to "0,"
     if(pointpos=1) then
       M.Strings[i]:= StringReplace(M.Strings[i],'.','0,',[rfReplaceAll])
     else
-      // если точка в самом конце — просто убираем её
+      //If porint in end then just delete it
       if((pointpos>0) and (Length(M.Strings[i])=pointpos)) then
          M.Strings[i]:=StringReplace(M.Strings[i],'.','',[rfReplaceAll]);
-    // меняем все оставшиеся точки на запятые
+    //Replace all remaining points to commas
     M.Strings[i]:=StringReplace(M.Strings[i],'.',',',[rfReplaceAll]);
   end;
 end;
 
-// Удаление лишних пробелов
+//Delete uneceessary spaces
 function ReplaceSpaces(WorkString:string; numofvar: Integer): String;
 var
   i, k, space, tab: Integer;
 begin
-  // удаляем пробелы и табы в начале строки
+  //Delete all spaces and tabs on start of line
   while( (WorkString[1]=' ') or (WorkString[1]=#9) ) do
     Delete(WorkString, 1, 1);
 
   for i:=1 to numofvar-1 do
   begin
-    // находим  положение первого пробела или таба
+    //Find first space or tab position
     space := Pos(' ', WorkString);
     tab := Pos(#9, WorkString);
 
-    { если пробел нашелся раньше таба и вообще нашелся или таб не нашелся,
-    используем его позицию, иначе позицию таба }
     if ( ( (space < tab) and (space > 0) ) or ( tab = 0 ) )then
       k:=space
     else
       k:=tab;
 
-    // удаляем все пробелы и табы, оставляя только первый
+    //Delete all tabs and spaces after found
     while( (WorkString[k+1]=' ') or (WorkString[k+1]=#9) ) do
       Delete(WorkString, k+1, 1);
-    WorkString[k]:='_'; { заменяем пробел или табуляцию на нижнее подчеркивание,
-                    чтобы найти следующий пробел или таб на следующей итерации }
+    WorkString[k]:='_'; {Replace found to underscore for find next space or tab on next iteration}
   end;
   Result:=WorkString;
 end;

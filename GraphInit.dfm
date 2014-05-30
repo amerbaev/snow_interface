@@ -30,7 +30,6 @@ object InitialGraph: TInitialGraph
     Caption = 'PanelChart'
     ShowCaption = False
     TabOrder = 0
-    ExplicitLeft = 8
     object ChartTemp: TChart
       Left = 0
       Top = 0
@@ -109,7 +108,6 @@ object InitialGraph: TInitialGraph
     Caption = 'PanelControls'
     ShowCaption = False
     TabOrder = 1
-    ExplicitHeight = 408
     object ButtonResize: TButton
       Left = 32
       Top = 336
