@@ -68,34 +68,6 @@ begin
   end;
 end;
 
-//Delete uneceessary spaces
-function ReplaceSpaces(WorkString:string; numofvar: Integer): String;
-var
-  i, k, space, tab: Integer;
-begin
-  //Delete all spaces and tabs on start of line
-  while( (WorkString[1]=' ') or (WorkString[1]=#9) ) do
-    Delete(WorkString, 1, 1);
-
-  for i:=1 to numofvar-1 do
-  begin
-    //Find first space or tab position
-    space := Pos(' ', WorkString);
-    tab := Pos(#9, WorkString);
-
-    if ( ( (space < tab) and (space > 0) ) or ( tab = 0 ) )then
-      k:=space
-    else
-      k:=tab;
-
-    //Delete all tabs and spaces after found
-    while( (WorkString[k+1]=' ') or (WorkString[k+1]=#9) ) do
-      Delete(WorkString, k+1, 1);
-    WorkString[k]:='_'; {Replace found to underscore for find next space or tab on next iteration}
-  end;
-  Result:=WorkString;
-end;
-
 procedure TInitialGraph.ButtonDateClick(Sender: TObject);
 var
   i: integer;
@@ -155,13 +127,13 @@ var
 begin
   StrList:=TStringList.Create;
   StrList.LoadFromFile(ExtractFilePath(Application.ExeName)+'fortfiles\'+Main.DailyFilename);
-  {for i := 2 to StrList.Count-1 do
+  for i := 2 to StrList.Count-1 do
     if Length(Trim(StrList.Strings[i]))=0 then
-      StrList.Delete(i);}
+      StrList.Delete(i);
   SGData.RowCount:=StrList.Count;
   for i := 1 to StrList.Count-1 do
   begin
-    StrList.Strings[i]:=ReplaceSpaces(StrList.Strings[i], 4);
+    StrList.Strings[i]:=MainForm.ReplaceSpaces(StrList.Strings[i], 4);
     TmpStringList:=TStringList.Create;
     TmpStringList.Text:=StringReplace(StrList.Strings[i],'_',#13#10,[rfReplaceAll]);
     ReplacePoint(TmpStringList, 4);

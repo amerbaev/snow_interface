@@ -210,7 +210,7 @@ begin
 end;
 
 //Delete uneceessary spaces
-function ReplaceSpaces(WorkString:string; numofvar: Integer): String;
+function TMainForm.ReplaceSpaces(WorkString:string; numofvar: Integer): String;
 var
   i, k, space, tab: Integer;
 begin
@@ -297,7 +297,7 @@ var
 begin
   FullString:=SingleString(FileName,1);
 
-  FullString:=ReplaceSpaces(FullString, numofvar);
+  FullString:=MainForm.ReplaceSpaces(FullString, numofvar);
 
   M:=TStringList.Create;
   M.Text:=StringReplace(FullString,'_',#13#10,[rfReplaceAll]);
@@ -319,13 +319,13 @@ var
 begin
   SetCurrentDir(ExtractFilePath(Application.ExeName)+'\fortfiles');
 
-  DailyFilename:=ReplaceSpaces(SingleString(FileName, 1), 1);
+  DailyFilename:=MainForm.ReplaceSpaces(SingleString(FileName, 1), 1);
   while Pos('''', DailyFilename) <> 0 do
     Delete(DailyFilename, Pos('''', DailyFilename), 1);
 
   FullString:=SingleString(FileName, 3);
 
-  FullString:=ReplaceSpaces(FullString, numofvar);
+  FullString:=MainForm.ReplaceSpaces(FullString, numofvar);
   M:=TStringList.Create;
   M.Text:=StringReplace(FullString,'_',#13#10,[rfReplaceAll]);
 
@@ -351,8 +351,8 @@ begin
   FullString_1:=SingleString(FileName, 2);
   FullString_2:=SingleString(FileName, 4);
 
-  FullString_1:=ReplaceSpaces(FullString_1, numofvar_1);
-  FullString_2:=ReplaceSpaces(FullString_2, numofvar_2);
+  FullString_1:=MainForm.ReplaceSpaces(FullString_1, numofvar_1);
+  FullString_2:=MainForm.ReplaceSpaces(FullString_2, numofvar_2);
 
   M:=TStringList.Create;
   M.Text:=StringReplace(FullString_1,'_',#13#10,[rfReplaceAll]);
@@ -377,7 +377,7 @@ begin
   SetCurrentDir(ExtractFilePath(Application.ExeName)+'\fortfiles');
 
   FullString:=SingleString(FileName, 1);
-  FullString:=ReplaceSpaces(FullString, numofvar);
+  FullString:=MainForm.ReplaceSpaces(FullString, numofvar);
 
   M:=TStringList.Create;
   M.Text:=StringReplace(FullString,'_',#13#10,[rfReplaceAll]);
