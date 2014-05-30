@@ -224,6 +224,43 @@ begin
   end;
 end;
 
+procedure TGraph.ButtonDateClick(Sender: TObject);
+var
+  Znach: String;
+  i, j: integer;
+  SWEFile, TmpStringList: TStrings;
+begin
+  if CBFrom.ItemIndex>=CBTo.ItemIndex then
+    ShowMessage('Дата начала периода превышает дату его конца, выберите другие значения')
+  else
+  begin
+    TChartSWE.Series[0].Clear;
+    TChartDepth.Series[0].Clear;
+    TChartMelt.Series[0].Clear;
+    for i := CBFrom.ItemIndex to CBTo.ItemIndex do
+    begin
+      TChartSWE.Series[0].Add(StrToFloat(SGRez.Cells[2,i+1]), StringReplace(SGRez.Cells[1, i+1],',','.',[rfReplaceAll]), clPurple);
+      TChartDepth.Series[0].Add(StrToFloat(SGRez.Cells[3,i+1]), StringReplace(SGRez.Cells[1, i+1],',','.',[rfReplaceAll]), clBlue);
+      TChartMelt.Series[0].Add(StrToFloat(SGRez.Cells[4,i+1]), StringReplace(SGRez.Cells[1, i+1],',','.',[rfReplaceAll]), clAqua);
+    end;
+  end;
+  if ODSWE.Files.Count=1 then
+  begin
+    SWEPoints.Clear;
+    j:=1;
+    for i := CBFrom.ItemIndex to CBTo.ItemIndex do
+    begin
+      if StringReplace(CBFrom.Items[i], '.', ',', [rfReplaceAll])=SGDepth.Cells[1,j] then
+      begin
+        SWEPoints.Add(StrToFloat(SGDepth.Cells[2,j]), CBFrom.Items[i], clPurple);
+        j:=j+1;
+      end
+      else
+        SWEPoints.Add(StrToFloat(SGRez.Cells[3,i+1]), CBFrom.Items[i], clNone);
+    end;
+	end;
+end;
+
 //Start date change
 procedure TGraph.CBFromChange(Sender: TObject);
 begin
