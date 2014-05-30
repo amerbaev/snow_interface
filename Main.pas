@@ -85,7 +85,7 @@ uses ContrPar, ParMod, GraphView, GraphInit;
 
 {$R *.dfm}
 
-//Перезапись файла SNOWDAT
+//Rewrite file SNOWDAT
 procedure SnowdatRewrite;
 var
   M:TStrings;
@@ -97,7 +97,7 @@ begin
   M.Free;
 end;
 
-//Перезапись файла ZONES.ARE
+//Rewrite file ZONES.ARE
 procedure ZonesRewrite;
 var
   M:TStrings;
@@ -109,7 +109,7 @@ begin
   M.Free;
 end;
 
-//Перезапись файла PARAM.ARE
+//Rewrite file PARAM.ARE
 procedure ParamRewrite;
 var
   M:TStrings;
@@ -122,7 +122,7 @@ begin
   M.Free;
 end;
 
-//Перезапись файла DATAS1.ARE
+//Rewrite file DATAS1.ARE
 procedure Datas1Rewrite;
 var
   M:TStrings;
@@ -135,25 +135,25 @@ begin
   M.Free;
 end;
 
-//Запуск программы расчета
+//Run calculation program
 procedure Calculate;
 begin
   ShellExecute(Application.Handle,'open','snow_DD_model.exe',nil,'...\fortfiles',SW_RESTORE);
 end;
 
-//Вызов запуска программы расчета
+//Call for run calculation program
 procedure TMainForm.btnRunClick(Sender: TObject);
 begin
   Calculate;
 end;
 
-//Выход из программы
+//Exit
 procedure TMainForm.ExitMenuBtnClick(Sender: TObject);
 begin
   MainForm.Close;
 end;
 
-//Открыть окно редактирования управляющих параметров (мб сам файл)
+//Open edit control parameters window
 procedure TMainForm.ControlParEditMenuBtnClick(Sender: TObject);
 begin
   ContParam.ShowModal;
