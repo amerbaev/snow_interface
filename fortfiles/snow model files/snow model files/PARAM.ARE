@@ -1,0 +1,5 @@
+N:total NUMBER of days  TAU:time step for calculations(sec)  DUR:time step for data(hours)
+N     TAU   DUR  (TAU/3600 must be .LE. DUR)
+457   86400.  24.
+degree-day factor(cm/(day*Cdegree))(if >1 then the calculation with varied factor; if <1 then with constant)
+0.68
