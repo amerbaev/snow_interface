@@ -51,6 +51,7 @@ type
     dlgOpenDaily: TOpenDialog;
     btnReload: TButton;
     btnInitial: TButton;
+    function ReplaceSpaces(WorkString:string; numofvar: Integer): String;
     procedure ControlParEditMenuBtnClick(Sender: TObject);
     procedure ExitMenuBtnClick(Sender: TObject);
     procedure ModelParEditMenuBtnClick(Sender: TObject);
@@ -456,7 +457,8 @@ begin
       DeleteFile(FortDaily);//Delete old DailyData file
       FileZones:=dlgOpenZones.FileName;
       ReadZones(FileZones);
-      FileDaily:= ExtractFilePath(FileZones)+DailyFilename;{Substitute new name of DailyData file to ZONES file folder}
+      FileDaily:= ExtractFilePath(FileZones)+DailyFilename;{Substitute new name
+                                          of DailyData file to ZONES file folder}
       FortDaily:= ExtractFilePath(Application.ExeName)+'fortfiles\'+ DailyFilename;
       if ( FileZones <> FortFile ) then
       begin
