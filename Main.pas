@@ -153,40 +153,40 @@ begin
   MainForm.Close;
 end;
 
-//Open edit control parameters window
+//Open control parameters edit window
 procedure TMainForm.ControlParEditMenuBtnClick(Sender: TObject);
 begin
   ContParam.ShowModal;
   btnReload.Click;
 end;
 
-//Открыть окно редактирования параметров модели (мб сам файл)
+//Open model parameters edit window
 procedure TMainForm.ModelParEditMenuBtnClick(Sender: TObject);
 begin
   ModParam.ShowModal;
   btnReload.Click;
 end;
 
-//Показать графики
+//Show charts of results
 procedure TMainForm.btnGraphClick(Sender: TObject);
 begin
   Graph.ShowModal;
 end;
 
-//Открыть окно редактирования управляющих параметров
+//Open control parameters edit window
 procedure TMainForm.btnInitialClick(Sender: TObject);
 begin
   InitialGraph.ShowModal;
 end;
 
-//Редактирование управляющих параметров
+//Editing of control parameters
 procedure TMainForm.btnRedContrClick(Sender: TObject);
 begin
   ContParam.ShowModal;
   btnReload.Click;
 end;
 
-//Открыть окно редактирования параметров модели
+//Open model parameters edit window
 procedure TMainForm.btnRedModelClick(Sender: TObject);
 begin
   ModParam.ShowModal;
@@ -195,7 +195,7 @@ begin
   ZonesRewrite;
 end;
 
-//Обновление всех данных (событие — костыль)
+//Reload all datas
 procedure TMainForm.btnReloadClick(Sender: TObject);
 begin
   lblNumofDaysVal.Caption:=FloatToStr(NumOfDays);
@@ -208,71 +208,67 @@ begin
   lblELEV0val.Caption:=FloatToStr(Elev0);
 end;
 
-// Удаление лишних пробелов
+//Delete uneceessary spaces
 function ReplaceSpaces(WorkString:string; numofvar: Integer): String;
 var
   i, k, space, tab: Integer;
 begin
-  // удаляем пробелы и табы в начале строки
+  //Delete all spaces and tabs on start of line
   while( (WorkString[1]=' ') or (WorkString[1]=#9) ) do
     Delete(WorkString, 1, 1);
 
   for i:=1 to numofvar-1 do
   begin
-    // находим  положение первого пробела или таба
+    //Find first space or tab position
     space := Pos(' ', WorkString);
     tab := Pos(#9, WorkString);
 
-    { если пробел нашелся раньше таба и вообще нашелся или таб не нашелся,
-    используем его позицию, иначе позицию таба }
     if ( ( (space < tab) and (space > 0) ) or ( tab = 0 ) )then
       k:=space
     else
       k:=tab;
 
-    // удаляем все пробелы и табы, оставляя только первый
+    //Delete all tabs and spaces after found
     while( (WorkString[k+1]=' ') or (WorkString[k+1]=#9) ) do
       Delete(WorkString, k+1, 1);
-    WorkString[k]:='_'; { заменяем пробел или табуляцию на нижнее подчеркивание,
-                    чтобы найти следующий пробел или таб на следующей итерации }
+    WorkString[k]:='_'; {Replace found to underscore for find next space or tab on next iteration}
   end;
   Result:=WorkString;
 end;
 
-//Правильный дробный разделитель
+//Right fraction divider
 procedure ReplacePoint(M: TStrings; numofvar: Integer);
 var
   i, pointpos: Integer;
 begin
   for i:=0 to numofvar-1 do
-  { меняем дробный разделитель с точки на запятую,
-  чтобы корректно перевелось во float }
+  { Replace divider from point to comma}
   begin
     pointpos:=pos('.',M.Strings[i]);
-    // если точка в начале, заменяем её на 0,
+    //If point in start then replace it to "0,"
     if(pointpos=1) then
       M.Strings[i]:= StringReplace(M.Strings[i],'.','0,',[rfReplaceAll])
     else
-      // если точка в самом конце — просто убираем её
+      //If porint in end then just delete it
       if((pointpos>0) and (Length(M.Strings[i])=pointpos)) then
          M.Strings[i]:=StringReplace(M.Strings[i],'.','',[rfReplaceAll]);
-    // меняем все оставшиеся точки на запятые
+    //Replace all remaining points to commas
     M.Strings[i]:=StringReplace(M.Strings[i],'.',',',[rfReplaceAll]);
   end;
 end;
 
-//Достать нужную строку
+//Get the required line
 function SingleString(const filename:string; stringnum: Integer):string;
 var
   M:TStrings;
 begin
-  M:=TStringList.Create; // создали массив строк
-  M.LoadFromFile(filename); // читаем файл в массив строк
-  Result:=M.Strings[stringnum]; // берем нужную строку
-  M.Free; // освободили массив строк
+  M:=TStringList.Create; //Create array of strings
+  M.LoadFromFile(filename); //Read file to array
+  Result:=M.Strings[stringnum]; //Get string
+  M.Free;
 end;
 
-//Копирование одного файла
+//Copy file
 procedure FileCopy(Const SourceFileName, TargetFileName: String);
 var
   A,F : TFileStream;
@@ -291,9 +287,9 @@ begin
   end;
 end;
 
-//Прочитать данные из файла SNOWDAT
+//Read all data from SNOWDAT file
 procedure ReadSnowdat(const FileName: string);
-  const numofvar = 2; // две переменные: Depth и Density
+  const numofvar = 2; //Variables: Depth and Density
 var
   M:TStrings;
   FullString:string;
@@ -313,7 +309,7 @@ begin
   M.Free;
 end;
 
-//Прочитать данные из файла ZONES.ARE
+//Read all data from ZONES.ARE file
 procedure ReadZones(const FileName: string);
   const numofvar = 3;
 var
@@ -341,7 +337,7 @@ begin
   M.Free;
 end;
 
-//Прочитать данные из файла PARAM.ARE
+//Read all data from PARAM.ARE file
 procedure ReadParam(const FileName: string);
   const numofvar_1 = 3;
   const numofvar_2 = 1;
@@ -370,9 +366,9 @@ begin
   M.Free;
 end;
 
-// Прочитать данные из файла DATAS1.ARE
+//Read all data from DATAS1.ARE file
 procedure ReadDatas1(const FileName: string);
-  const numofvar = 5; { Переменные TCR, RNEW, ESN, ULMAX0, UL0 }
+  const numofvar = 5; { variables: TCR, RNEW, ESN, ULMAX0, UL0 }
 var
   M:TStrings;
   FullString:string;
@@ -394,7 +390,7 @@ begin
   M.Free;
 end;
 
-//Подгрузить другой SNOWDAT
+//Load another SNOWDAT file
 procedure TMainForm.InitialOpenMenuBtnClick(Sender: TObject);
 var
   FortFile:String;
@@ -409,7 +405,7 @@ begin
     end;
 end;
 
-//Подгрузить другой PARAM.ARE
+//Load another PARAM.ARE file
 procedure TMainForm.ParamOpenMenuBtnClick(Sender: TObject);
 var
   FortFile:String;
@@ -428,7 +424,7 @@ begin
     end;
 end;
 
-//Подгрузить другой DATAS1.ARE
+//Load another DATAS1.ARE file
 procedure TMainForm.Datas1OpenMenuBtnClick(Sender: TObject);
 var
   FortFile:String;
@@ -447,7 +443,7 @@ begin
     end;
 end;
 
-//Подгрузить другой ZONES.ARE
+//Load another ZONES.ARE file
 procedure TMainForm.ZonesOpenMenuBtnClick(Sender: TObject);
 var
   FortFile, FileDaily, FortDaily:String;
@@ -456,16 +452,12 @@ begin
     begin
       FortFile:= ExtractFilePath(Application.ExeName)+'fortfiles\ZONES.ARE';
       FortDaily:= ExtractFilePath(Application.ExeName)+'fortfiles\'+ DailyFilename;
-                                                    //Путь к старому файлу DailyData
-      DeleteFile(FortDaily);//Удаляем старый файл DailyData
+                                                    //Path to old DailyData file
+      DeleteFile(FortDaily);//Delete old DailyData file
       FileZones:=dlgOpenZones.FileName;
       ReadZones(FileZones);
-      FileDaily:= ExtractFilePath(FileZones)+DailyFilename;{Подставляем значение
-                                                            нового имени DailyData
-                                                            к пути той же папки}
+      FileDaily:= ExtractFilePath(FileZones)+DailyFilename;{Substitute new name of DailyData file to ZONES file folder}
       FortDaily:= ExtractFilePath(Application.ExeName)+'fortfiles\'+ DailyFilename;
-                                                            {Объявляем, куда все будет
-                                                            скопировано}
       if ( FileZones <> FortFile ) then
       begin
         FileCopy(FileZones, FortFile );
@@ -474,14 +466,14 @@ begin
     end;
 end;
 
-//Открытие программы, чтение имеющихся файлов
+//Open program, read all existing files
 procedure TMainForm.FormCreate(Sender: TObject);
-begin //подгружаем все файлы
+begin //Load all files
   ReadSnowdat(ExtractFilePath(Application.ExeName)+'fortfiles\SNOWDAT');
   ReadParam(ExtractFilePath(Application.ExeName)+'fortfiles\PARAM.ARE');
   ReadDatas1(ExtractFilePath(Application.ExeName)+'fortfiles\DATAS1.ARE');
   ReadZones(ExtractFilePath(Application.ExeName)+'fortfiles\ZONES.ARE');
-  btnReload.Click; //выводим обновленные переменные
+  btnReload.Click; //Show new data
 end;
 
 end.
