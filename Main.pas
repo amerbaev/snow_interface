@@ -179,6 +179,7 @@ begin
   InitialGraph.ShowModal;
 end;
 
+//–едактирование управл€ющих параметров
 procedure TMainForm.btnRedContrClick(Sender: TObject);
 begin
   ContParam.ShowModal;
