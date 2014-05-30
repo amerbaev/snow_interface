@@ -129,7 +129,7 @@ begin
     if(pointpos=1) then
       M.Strings[i]:= StringReplace(M.Strings[i],'.','0,',[rfReplaceAll])
     else
-      //If porint in end then just delete it
+      //If point in end then just delete it
       if((pointpos>0) and (Length(M.Strings[i])=pointpos)) then
          M.Strings[i]:=StringReplace(M.Strings[i],'.','',[rfReplaceAll]);
     //Replace all remaining points to commas
