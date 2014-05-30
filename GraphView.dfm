@@ -27,8 +27,6 @@
     Align = alLeft
     Alignment = taLeftJustify
     TabOrder = 0
-    ExplicitLeft = 610
-    ExplicitHeight = 442
     object Период: TGroupBox
       Left = 6
       Top = 0
@@ -158,8 +156,6 @@
     BevelOuter = bvNone
     Caption = 'PanelChart'
     TabOrder = 1
-    ExplicitWidth = 610
-    ExplicitHeight = 442
     DesignSize = (
       581
       418)
@@ -183,8 +179,6 @@
       Align = alBottom
       BevelOuter = bvNone
       TabOrder = 0
-      ExplicitTop = 310
-      ExplicitWidth = 610
       DefaultCanvas = 'TGDIPlusCanvas'
       ColorPaletteIndex = 13
       object Series3: TLineSeries
@@ -226,7 +220,6 @@
       BevelOuter = bvNone
       TabOrder = 1
       Anchors = [akLeft, akTop, akRight]
-      ExplicitWidth = 619
       DefaultCanvas = 'TGDIPlusCanvas'
       ColorPaletteIndex = 13
       object Series2: TLineSeries
@@ -263,7 +256,6 @@
       BevelOuter = bvNone
       TabOrder = 2
       Anchors = [akLeft, akTop, akRight]
-      ExplicitWidth = 613
       DefaultCanvas = 'TGDIPlusCanvas'
       ColorPaletteIndex = 7
       object Series1: TLineSeries

@@ -59,7 +59,7 @@ implementation
 
 uses Main;
 
-//ѕроцедура правильного выравнивани€ компонентов
+//Right positions of components when resize
 procedure TGraph.ButtonResizeClick(Sender: TObject);
 begin
   PanelChart.Height:=Graph.ClientHeight;
@@ -69,132 +69,75 @@ begin
   TChartMelt.Height:=round(Graph.ClientHeight/3);
 end;
 
-//ѕравильное выравнивание компонентов при создании формы
+//Right positions of components on create
 procedure TGraph.FormCreate(Sender: TObject);
 begin
   ButtonResize.Click;
 end;
 
-//ѕравильное выравнивание компонентов при изменении размеров формы
+//Right positions of components on resize
 procedure TGraph.FormResize(Sender: TObject);
 begin
   ButtonResize.Click;
 end;
 
-//ѕравильное выравнивание компонентов при показе формы и вывод данных
+//Right positions of components on show and show data
 procedure TGraph.FormShow(Sender: TObject);
 begin
   ButtonResize.Click;
   DataButton.Click;
 end;
 
-// ”даление лишних пробелов
+//Delete uneceessary spaces
 function ReplaceSpaces(WorkString:string; numofvar: Integer): String;
 var
   i, k, space, tab: Integer;
 begin
-  // удал€ем пробелы и табы в начале строки
+  //Delete all spaces and tabs on start of line
   while( (WorkString[1]=' ') or (WorkString[1]=#9) ) do
     Delete(WorkString, 1, 1);
 
   for i:=1 to numofvar-1 do
   begin
-    // находим  положение первого пробела или таба
+    //Find first space or tab position
     space := Pos(' ', WorkString);
     tab := Pos(#9, WorkString);
 
-    { если пробел нашелс€ раньше таба и вообще нашелс€ или таб не нашелс€,
-    используем его позицию, иначе позицию таба }
     if ( ( (space < tab) and (space > 0) ) or ( tab = 0 ) )then
       k:=space
     else
       k:=tab;
 
-    // удал€ем все пробелы и табы, оставл€€ только первый
+    //Delete all tabs and spaces after found
     while( (WorkString[k+1]=' ') or (WorkString[k+1]=#9) ) do
       Delete(WorkString, k+1, 1);
-    WorkString[k]:='_'; { замен€ем пробел или табул€цию на нижнее подчеркивание,
-                    чтобы найти следующий пробел или таб на следующей итерации }
+    WorkString[k]:='_'; {Replace found to underscore for find next space or tab on next iteration}
   end;
   Result:=WorkString;
 end;
 
-// ѕравильный дробный разделитель
+//Right fraction divider
 procedure ReplacePoint(M: TStrings; numofvar: Integer);
 var
   i, pointpos: Integer;
 begin
   for i:=0 to numofvar-1 do
-  { мен€ем дробный разделитель с точки на зап€тую,
-  чтобы корректно перевелось во float }
+  { Replace divider from point to comma}
   begin
     pointpos:=pos('.',M.Strings[i]);
-    // если точка в начале, замен€ем еЄ на 0,
+    //If point in start then replace it to "0,"
     if(pointpos=1) then
       M.Strings[i]:= StringReplace(M.Strings[i],'.','0,',[rfReplaceAll])
     else
-      // если точка в самом конце Ч просто убираем еЄ
+      //If porint in end then just delete it
       if((pointpos>0) and (Length(M.Strings[i])=pointpos)) then
          M.Strings[i]:=StringReplace(M.Strings[i],'.','',[rfReplaceAll]);
-    // мен€ем все оставшиес€ точки на зап€тые
+    //Replace all remaining points to commas
     M.Strings[i]:=StringReplace(M.Strings[i],'.',',',[rfReplaceAll]);
   end;
 end;
 
-//ќбновление данных при изменении начальной или конечной даты
-procedure TGraph.ButtonDateClick(Sender: TObject);
-var
-  Znach: String;
-  i, j: integer;
-  SWEFile, TmpStringList: TStrings;
-begin
-  if CBFrom.ItemIndex>=CBTo.ItemIndex then
-    ShowMessage('ƒата начала периода превышает дату его конца, выберите другие значени€')
-  else
-  begin
-    TChartSWE.Series[0].Clear;
-    TChartDepth.Series[0].Clear;
-    TChartMelt.Series[0].Clear;
-    for i := CBFrom.ItemIndex to CBTo.ItemIndex do
-    begin
-      TChartSWE.Series[0].Add(StrToFloat(SGRez.Cells[2,i+1]), StringReplace(SGRez.Cells[1, i+1],',','.',[rfReplaceAll]), clPurple);
-      TChartDepth.Series[0].Add(StrToFloat(SGRez.Cells[3,i+1]), StringReplace(SGRez.Cells[1, i+1],',','.',[rfReplaceAll]), clBlue);
-      TChartMelt.Series[0].Add(StrToFloat(SGRez.Cells[4,i+1]), StringReplace(SGRez.Cells[1, i+1],',','.',[rfReplaceAll]), clAqua);
-    end;
-  end;
-  if ODSWE.Files.Count=1 then
-  begin
-    SWEPoints.Clear;
-    j:=1;
-    for i := CBFrom.ItemIndex to CBTo.ItemIndex do
-    begin
-      if StringReplace(CBFrom.Items[i], '.', ',', [rfReplaceAll])=SGDepth.Cells[1,j] then
-      begin
-        SWEPoints.Add(StrToFloat(SGDepth.Cells[2,j]), CBFrom.Items[i], clPurple);
-        j:=j+1;
-      end
-      else
-      SWEPoints.Add(StrToFloat(SGRez.Cells[3,i+1]), CBFrom.Items[i], clNone);
-    end;
-  end;
-  if ODDepth.Files.Count=1 then
-  begin
-    DepthPoints.Clear;
-    j:=1;
-    for i := CBFrom.ItemIndex to CBTo.ItemIndex do
-    begin
-      if StringReplace(CBFrom.Items[i], '.', ',', [rfReplaceAll])=SGDepth.Cells[1,j] then
-      begin
-        DepthPoints.Add(StrToFloat(SGDepth.Cells[2,j]), CBFrom.Items[i], clPurple);
-        j:=j+1;
-      end
-      else
-      DepthPoints.Add(StrToFloat(SGRez.Cells[3,i+1]), CBFrom.Items[i], clNone);
-    end;
-  end;
-end;
-
-//ѕодгрузка внешнего файла Depth
+//Load Depth file
 procedure TGraph.ButtonDepthClick(Sender: TObject);
 var
   DepthFile, TmpStringList: TStrings;
@@ -237,7 +180,7 @@ begin
   end;
 end;
 
-//ѕодгрузка внешнего файла SWE
+//Load SWE file
 procedure TGraph.ButtonSWEClick(Sender: TObject);
 var
   SWEFile, TmpStringList: TStrings;
@@ -281,19 +224,19 @@ begin
   end;
 end;
 
-//»зменение начальной даты
+//Start date change
 procedure TGraph.CBFromChange(Sender: TObject);
 begin
   ButtonDate.Click;
 end;
 
-//»зменение конечной даты
+//End date change
 procedure TGraph.CBToChange(Sender: TObject);
 begin
   ButtonDate.Click;
 end;
 
-//ѕроцедура подгрузки данных расчетов
+//Load calculations data
 procedure TGraph.DataButtonClick(Sender: TObject);
 var
   SL,TmpStringList:TStrings;
@@ -302,21 +245,21 @@ var
 begin
   SL:=TStringList.Create;
   SL.LoadFromFile(ExtractFilePath(Application.ExeName)+'fortfiles\vnd.rez');
-  for i := 2 to SL.Count-1 do // „истим от пустых строк
+  for i := 2 to SL.Count-1 do //Clear empty strings
     if Length(trim(SL.Strings[i]))=0 then
       SL.Delete(i);
 
   SGRez.RowCount:=SL.Count-1;
-  for i := 2 to SL.Count-1 do  // «аполн€ем таблицу
+  for i := 2 to SL.Count-1 do//Fill stringgrid
   begin
       SL.Strings[i]:= ReplaceSpaces(SL.Strings[i], 5);
       TmpStringList:= TStringList.Create;
       TmpStringList.Text:=StringReplace(SL.Strings[i],'_',#13#10,[rfReplaceAll]);
       ReplacePoint(TmpStringList, 5);
       TmpString:=TmpStringList.Strings[0];
-      Insert(',', TmpString, 3); //ƒобавл€ем разделитель мес€ца и дн€
+      Insert(',', TmpString, 3); //Add day.month divider
       TmpStringList.Strings[0]:=TmpString;
-      SGRez.Cells[1,i-1]:=TmpStringList.Strings[0]; //ƒата
+      SGRez.Cells[1,i-1]:=TmpStringList.Strings[0]; //Date
       SGRez.Cells[2,i-1]:=TmpStringList.Strings[1]; //SWE
       SGRez.Cells[3,i-1]:=TmpStringList.Strings[2]; //Depth
       SGRez.Cells[4,i-1]:=TmpStringList.Strings[3]; //Melt

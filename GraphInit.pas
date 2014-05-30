@@ -168,9 +168,9 @@ begin
     TmpString:=TmpStringList.Strings[0];
     Insert(',',TmpString,3);
     TmpStringList.Strings[0]:=TmpString;
-    SGData.Cells[1,i]:=TmpStringList.Strings[0]; //Дата
-    SGData.Cells[2,i]:=TmpStringList.Strings[1]; //Температура
-    SGData.Cells[3,i]:=TmpStringList.Strings[2]; //Осадки
+    SGData.Cells[1,i]:=TmpStringList.Strings[0]; //Date
+    SGData.Cells[2,i]:=TmpStringList.Strings[1]; //Temperature
+    SGData.Cells[3,i]:=TmpStringList.Strings[2]; //Precipitation
     TmpStringList.Free;
   end;
   for i := 1 to SGData.RowCount-1 do
