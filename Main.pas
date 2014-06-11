@@ -142,7 +142,7 @@ end;
 //Run calculation program
 procedure Calculate;
 begin
-  ShellExecute(Application.Handle,'open','snow_DD_model.exe',nil,'...\fortfiles',SW_RESTORE);
+  ShellExecute(Application.Handle,'open','snowars.exe',nil,'...\fortfiles',SW_RESTORE);
 end;
 
 //Call for run calculation program
