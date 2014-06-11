@@ -6,7 +6,8 @@ uses
   ContrPar in 'ContrPar.pas' {ContParam},
   ParMod in 'ParMod.pas' {ModParam},
   GraphView in 'GraphView.pas' {Graph},
-  GraphInit in 'GraphInit.pas' {InitialGraph};
+  GraphInit in 'GraphInit.pas' {InitialGraph},
+  ToolsUnit in 'ToolsUnit.pas';
 
 {$R *.res}
 

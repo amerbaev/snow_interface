@@ -57,7 +57,10 @@ implementation
 
 {$R *.dfm}
 
-uses Main;
+uses Main, ToolsUnit;
+
+var
+  Tools: ToolsUnit.TTools;
 
 //Right positions of components when resize
 procedure TGraph.ButtonResizeClick(Sender: TObject);
@@ -88,55 +91,6 @@ begin
   DataButton.Click;
 end;
 
-//Delete uneceessary spaces
-function ReplaceSpaces(WorkString:string; numofvar: Integer): String;
-var
-  i, k, space, tab: Integer;
-begin
-  //Delete all spaces and tabs on start of line
-  while( (WorkString[1]=' ') or (WorkString[1]=#9) ) do
-    Delete(WorkString, 1, 1);
-
-  for i:=1 to numofvar-1 do
-  begin
-    //Find first space or tab position
-    space := Pos(' ', WorkString);
-    tab := Pos(#9, WorkString);
-
-    if ( ( (space < tab) and (space > 0) ) or ( tab = 0 ) )then
-      k:=space
-    else
-      k:=tab;
-
-    //Delete all tabs and spaces after found
-    while( (WorkString[k+1]=' ') or (WorkString[k+1]=#9) ) do
-      Delete(WorkString, k+1, 1);
-    WorkString[k]:='_'; {Replace found to underscore for find next space or tab on next iteration}
-  end;
-  Result:=WorkString;
-end;
-
-//Right fraction divider
-procedure ReplacePoint(M: TStrings; numofvar: Integer);
-var
-  i, pointpos: Integer;
-begin
-  for i:=0 to numofvar-1 do
-  { Replace divider from point to comma}
-  begin
-    pointpos:=pos('.',M.Strings[i]);
-    //If point in start then replace it to "0,"
-    if(pointpos=1) then
-      M.Strings[i]:= StringReplace(M.Strings[i],'.','0,',[rfReplaceAll])
-    else
-      //If point in end then just delete it
-      if((pointpos>0) and (Length(M.Strings[i])=pointpos)) then
-         M.Strings[i]:=StringReplace(M.Strings[i],'.','',[rfReplaceAll]);
-    //Replace all remaining points to commas
-    M.Strings[i]:=StringReplace(M.Strings[i],'.',',',[rfReplaceAll]);
-  end;
-end;
-
 //Load Depth file
 procedure TGraph.ButtonDepthClick(Sender: TObject);
 var
@@ -156,10 +110,10 @@ begin
     SGDepth.RowCount:=DepthFile.Count;
     for i := 1 to DepthFile.Count-1 do
     begin
-      DepthFile.Strings[i]:= ReplaceSpaces(DepthFile.Strings[i], 2);
+      DepthFile.Strings[i]:=Tools.ReplaceSpaces(DepthFile.Strings[i], 2);
       TmpStringList:= TStringList.Create;
       TmpStringList.Text:=StringReplace(DepthFile.Strings[i],'_',#13#10,[rfReplaceAll]);
-      ReplacePoint(TmpStringList, 2);
+      Tools.ReplacePoint(TmpStringList, 2);
       SGDepth.Cells[1,i]:=TmpStringList.Strings[0];
       SGDepth.Cells[2,i]:=TmpStringList.Strings[1];
       TmpStringList.Free;
@@ -199,10 +153,10 @@ begin
     SGDepth.RowCount:=SWEFile.Count;
     for i := 1 to SWEFile.Count-1 do
     begin
-      SWEFile.Strings[i]:= ReplaceSpaces(SWEFile.Strings[i], 2);
+      SWEFile.Strings[i]:=Tools.ReplaceSpaces(SWEFile.Strings[i], 2);
       TmpStringList:= TStringList.Create;
       TmpStringList.Text:=StringReplace(SWEFile.Strings[i],'_',#13#10,[rfReplaceAll]);
-      ReplacePoint(TmpStringList, 2);
+      Tools.ReplacePoint(TmpStringList, 2);
       SGDepth.Cells[1,i]:=TmpStringList.Strings[0];
       SGDepth.Cells[2,i]:=TmpStringList.Strings[1];
       TmpStringList.Free;
@@ -289,10 +243,10 @@ begin
   SGRez.RowCount:=SL.Count-1;
   for i := 2 to SL.Count-1 do//Fill stringgrid
   begin
-      SL.Strings[i]:= ReplaceSpaces(SL.Strings[i], 5);
+      SL.Strings[i]:= Tools.ReplaceSpaces(SL.Strings[i], 5);
       TmpStringList:= TStringList.Create;
       TmpStringList.Text:=StringReplace(SL.Strings[i],'_',#13#10,[rfReplaceAll]);
-      ReplacePoint(TmpStringList, 5);
+      Tools.ReplacePoint(TmpStringList, 5);
       TmpString:=TmpStringList.Strings[0];
       Insert(',', TmpString, 3); //Add day.month divider
       TmpStringList.Strings[0]:=TmpString;

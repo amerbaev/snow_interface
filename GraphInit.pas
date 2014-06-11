@@ -30,9 +30,9 @@ type
     procedure FormShow(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure ButtonDataClick(Sender: TObject);
-    procedure ButtonDateClick(Sender: TObject);
     procedure ComboBoxFromChange(Sender: TObject);
     procedure ComboBoxToChange(Sender: TObject);
+    procedure ButtonDateClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -44,33 +44,18 @@ var
 
 implementation
 
-uses Main;
+uses Main, ToolsUnit;
 
 {$R *.dfm}
-//Right fraction divider
-procedure ReplacePoint(M: TStrings; numofvar: Integer);
+
 var
-  i, pointpos: Integer;
-begin
-  for i:=0 to numofvar-1 do
-  { Replace divider from point to comma}
-  begin
-    pointpos:=pos('.',M.Strings[i]);
-    //If point in start then replace it to "0,"
-    if(pointpos=1) then
-      M.Strings[i]:= StringReplace(M.Strings[i],'.','0,',[rfReplaceAll])
-    else
-      //If point in end then just delete it
-      if((pointpos>0) and (Length(M.Strings[i])=pointpos)) then
-         M.Strings[i]:=StringReplace(M.Strings[i],'.','',[rfReplaceAll]);
-    //Replace all remaining points to commas
-    M.Strings[i]:=StringReplace(M.Strings[i],'.',',',[rfReplaceAll]);
-  end;
-end;
+  Tools: ToolsUnit.TTools;
 
 procedure TInitialGraph.ButtonDateClick(Sender: TObject);
 var
-  i: integer;
+  Znach: String;
+  i, j: integer;
+  SWEFile, TmpStringList: TStrings;
 begin
   if ComboBoxFrom.ItemIndex>=ComboBoxTo.ItemIndex then
     ShowMessage('Дата начала периода превышает дату его конца, выберите другие значения')
@@ -133,10 +118,10 @@ begin
   SGData.RowCount:=StrList.Count;
   for i := 1 to StrList.Count-1 do
   begin
-    StrList.Strings[i]:=MainForm.ReplaceSpaces(StrList.Strings[i], 4);
+    StrList.Strings[i]:=Tools.ReplaceSpaces(StrList.Strings[i], 4);
     TmpStringList:=TStringList.Create;
     TmpStringList.Text:=StringReplace(StrList.Strings[i],'_',#13#10,[rfReplaceAll]);
-    ReplacePoint(TmpStringList, 4);
+    Tools.ReplacePoint(TmpStringList, 4);
     TmpString:=TmpStringList.Strings[0];
     Insert(',',TmpString,3);
     TmpStringList.Strings[0]:=TmpString;

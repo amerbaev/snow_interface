@@ -4,7 +4,7 @@ object MainForm: TMainForm
   BorderIcons = [biSystemMenu, biMinimize]
   BorderStyle = bsSingle
   Caption = 'Snow Interface'
-  ClientHeight = 222
+  ClientHeight = 223
   ClientWidth = 568
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET

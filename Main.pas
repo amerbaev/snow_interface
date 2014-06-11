@@ -51,7 +51,6 @@ type
     dlgOpenDaily: TOpenDialog;
     btnReload: TButton;
     btnInitial: TButton;
-    function ReplaceSpaces(WorkString:string; numofvar: Integer): String;
     procedure ControlParEditMenuBtnClick(Sender: TObject);
     procedure ExitMenuBtnClick(Sender: TObject);
     procedure ModelParEditMenuBtnClick(Sender: TObject);
@@ -79,12 +78,16 @@ var
   NumOfDays, TSforCalc, TSforInp, GMELT: Real;
   TCR, RNEW, ESN, ULMAX0, UL0: Real;
   FileInitCon, FileDailyData, FileParam, FileDatas, FileZones, DailyFilename: string;
+  DailyAnswer: Boolean;
 
 implementation
 
-uses ContrPar, ParMod, GraphView, GraphInit;
+uses ContrPar, ParMod, GraphView, GraphInit, ToolsUnit, DailyQuestion;
 
 {$R *.dfm}
+
+var
+  Tools: ToolsUnit.TTools;
 
 //Rewrite file SNOWDAT
 procedure SnowdatRewrite;
@@ -209,85 +212,6 @@ begin
   lblELEV0val.Caption:=FloatToStr(Elev0);
 end;
 
-//Delete uneceessary spaces
-function TMainForm.ReplaceSpaces(WorkString:string; numofvar: Integer): String;
-var
-  i, k, space, tab: Integer;
-begin
-  //Delete all spaces and tabs on start of line
-  while( (WorkString[1]=' ') or (WorkString[1]=#9) ) do
-    Delete(WorkString, 1, 1);
-
-  for i:=1 to numofvar-1 do
-  begin
-    //Find first space or tab position
-    space := Pos(' ', WorkString);
-    tab := Pos(#9, WorkString);
-
-    if ( ( (space < tab) and (space > 0) ) or ( tab = 0 ) )then
-      k:=space
-    else
-      k:=tab;
-
-    //Delete all tabs and spaces after found
-    while( (WorkString[k+1]=' ') or (WorkString[k+1]=#9) ) do
-      Delete(WorkString, k+1, 1);
-    WorkString[k]:='_'; {Replace found to underscore for find next space or tab on next iteration}
-  end;
-  Result:=WorkString;
-end;
-
-//Right fraction divider
-procedure ReplacePoint(M: TStrings; numofvar: Integer);
-var
-  i, pointpos: Integer;
-begin
-  for i:=0 to numofvar-1 do
-  { Replace divider from point to comma}
-  begin
-    pointpos:=pos('.',M.Strings[i]);
-    //If point in start then replace it to "0,"
-    if(pointpos=1) then
-      M.Strings[i]:= StringReplace(M.Strings[i],'.','0,',[rfReplaceAll])
-    else
-      //If point in end then just delete it
-      if((pointpos>0) and (Length(M.Strings[i])=pointpos)) then
-         M.Strings[i]:=StringReplace(M.Strings[i],'.','',[rfReplaceAll]);
-    //Replace all remaining points to commas
-    M.Strings[i]:=StringReplace(M.Strings[i],'.',',',[rfReplaceAll]);
-  end;
-end;
-
-//Get the required line
-function SingleString(const filename:string; stringnum: Integer):string;
-var
-  M:TStrings;
-begin
-  M:=TStringList.Create; //Create array of strings
-  M.LoadFromFile(filename); //Read file to array
-  Result:=M.Strings[stringnum]; //Get string
-  M.Free;
-end;
-
-//Copy file
-procedure FileCopy(Const SourceFileName, TargetFileName: String);
-var
-  A,F : TFileStream;
-begin
-  A := TFileStream.Create(sourcefilename, fmOpenRead );
-  try
-    F := TFileStream.Create(targetfilename, fmOpenWrite or fmCreate);
-    try
-      F.CopyFrom(A, A.Size ) ;
-      FileSetDate(F.Handle, FileGetDate(A.Handle));
-    finally
-      F.Free;
-    end;
-  finally
-    A.Free;
-  end;
-end;
-
 //Read all data from SNOWDAT file
 procedure ReadSnowdat(const FileName: string);
   const numofvar = 2; //Variables: Depth and Density
@@ -295,14 +219,14 @@ var
   M:TStrings;
   FullString:string;
 begin
-  FullString:=SingleString(FileName,1);
+  FullString:=Tools.SingleString(FileName,1);
 
-  FullString:=MainForm.ReplaceSpaces(FullString, numofvar);
+  FullString:=Tools.ReplaceSpaces(FullString, numofvar);
 
   M:=TStringList.Create;
   M.Text:=StringReplace(FullString,'_',#13#10,[rfReplaceAll]);
 
-  ReplacePoint(M, numofvar);
+  Tools.ReplacePoint(M, numofvar);
 
   Depth:=StrToFloat(M.Strings[0]);
   Density:=StrToFloat(M.Strings[1]);
@@ -319,17 +243,17 @@ var
 begin
   SetCurrentDir(ExtractFilePath(Application.ExeName)+'\fortfiles');
 
-  DailyFilename:=MainForm.ReplaceSpaces(SingleString(FileName, 1), 1);
+  DailyFilename:=Tools.ReplaceSpaces(Tools.SingleString(FileName, 1), 1);
   while Pos('''', DailyFilename) <> 0 do
     Delete(DailyFilename, Pos('''', DailyFilename), 1);
 
-  FullString:=SingleString(FileName, 3);
+  FullString:=Tools.SingleString(FileName, 3);
 
-  FullString:=MainForm.ReplaceSpaces(FullString, numofvar);
+  FullString:=Tools.ReplaceSpaces(FullString, numofvar);
   M:=TStringList.Create;
   M.Text:=StringReplace(FullString,'_',#13#10,[rfReplaceAll]);
 
-  ReplacePoint(M, numofvar);
+  Tools.ReplacePoint(M, numofvar);
 
   Elev0:=StrToFloat(M.Strings[0]);
   ElevMax:=StrToFloat(M.Strings[1]);
@@ -348,21 +272,21 @@ var
 begin
   SetCurrentDir(ExtractFilePath(Application.ExeName)+'\fortfiles');
 
-  FullString_1:=SingleString(FileName, 2);
-  FullString_2:=SingleString(FileName, 4);
+  FullString_1:=Tools.SingleString(FileName, 2);
+  FullString_2:=Tools.SingleString(FileName, 4);
 
-  FullString_1:=MainForm.ReplaceSpaces(FullString_1, numofvar_1);
-  FullString_2:=MainForm.ReplaceSpaces(FullString_2, numofvar_2);
+  FullString_1:=Tools.ReplaceSpaces(FullString_1, numofvar_1);
+  FullString_2:=Tools.ReplaceSpaces(FullString_2, numofvar_2);
 
   M:=TStringList.Create;
   M.Text:=StringReplace(FullString_1,'_',#13#10,[rfReplaceAll]);
-  ReplacePoint(M, numofvar_1);
+  Tools.ReplacePoint(M, numofvar_1);
   NumOfDays:=StrToFloat(M.Strings[0]);
   TSforCalc:=StrToFloat(M.Strings[1]);
   TSforInp:=StrToInt(M.Strings[2]);
   M.Clear;
   M.Text:=StringReplace(FullString_2,'_',#13#10,[rfReplaceAll]);
-  ReplacePoint(M, numofvar_2);
+  Tools.ReplacePoint(M, numofvar_2);
   GMELT:=StrToFloat(M.Strings[0]);
   M.Free;
 end;
@@ -376,12 +300,12 @@ var
 begin
   SetCurrentDir(ExtractFilePath(Application.ExeName)+'\fortfiles');
 
-  FullString:=SingleString(FileName, 1);
-  FullString:=MainForm.ReplaceSpaces(FullString, numofvar);
+  FullString:=Tools.SingleString(FileName, 1);
+  FullString:=Tools.ReplaceSpaces(FullString, numofvar);
 
   M:=TStringList.Create;
   M.Text:=StringReplace(FullString,'_',#13#10,[rfReplaceAll]);
-  ReplacePoint(M, numofvar);
+  Tools.ReplacePoint(M, numofvar);
   TCR:=StrToFloat(M.Strings[0]);
   RNEW:=StrToFloat(M.Strings[1]);
   ESN:=StrToFloat(M.Strings[2]);
@@ -402,7 +326,7 @@ begin
       FileInitCon:=dlgOpenInitCon.FileName;
       ReadSnowdat(FileInitCon);
       if ( FileParam <> FortFile ) then
-        FileCopy(FileInitCon, FortFile );
+        Tools.FileCopy(FileInitCon, FortFile );
     end;
 end;
 
@@ -421,7 +345,7 @@ begin
       lblTSforInpVal.Caption:=FloatToStr(TSforInp);
       lblGMELTVal.Caption:=FloatToStr(GMELT);
       if ( FileParam <> FortFile ) then
-        FileCopy(FileParam, FortFile );
+        Tools.FileCopy(FileParam, FortFile );
     end;
 end;
 
@@ -440,30 +364,52 @@ begin
       lblULMAXval.Caption:=FloatToStr(ULMAX0);
       lblELEV0val.Caption:=FloatToStr(Elev0);
       if ( FileDatas <> FortFile ) then
-        FileCopy(FileDatas, FortFile );
+        Tools.FileCopy(FileDatas, FortFile );
     end;
 end;
 
 //Load another ZONES.ARE file
 procedure TMainForm.ZonesOpenMenuBtnClick(Sender: TObject);
 var
-  FortFile, FileDaily, FortDaily:String;
+  FortFile, FileDaily, FortDaily, OldDailyFilename, OldFortDaily:String;
 begin
   if dlgOpenZones.Execute then
     begin
+      DailyAnswer:=False;
+
       FortFile:= ExtractFilePath(Application.ExeName)+'fortfiles\ZONES.ARE';
       FortDaily:= ExtractFilePath(Application.ExeName)+'fortfiles\'+ DailyFilename;
                                                     //Path to old DailyData file
-      DeleteFile(FortDaily);//Delete old DailyData file
+
       FileZones:=dlgOpenZones.FileName;
+      OldDailyFilename:=DailyFilename;
+      OldFortDaily:=FortDaily;
       ReadZones(FileZones);
       FileDaily:= ExtractFilePath(FileZones)+DailyFilename;{Substitute new name
                                           of DailyData file to ZONES file folder}
-      FortDaily:= ExtractFilePath(Application.ExeName)+'fortfiles\'+ DailyFilename;
-      if ( FileZones <> FortFile ) then
+      Tools.FileCopy(FileZones, FortFile);
+
+      if FileExists(FileDaily) then
       begin
-        FileCopy(FileZones, FortFile );
-        FileCopy(FileDaily, FortDaily);
+        FortDaily:= ExtractFilePath(Application.ExeName)+'fortfiles\'+ DailyFilename;
+        Tools.FileCopy(FileDaily, FortDaily);
+      end
+      else
+      begin
+        if DailyAnswer then
+          if dlgOpenDaily.Execute then
+          begin
+            FileDaily:=dlgOpenDaily.FileName;
+            DeleteFile(OldFortDaily);//Delete old DailyData file
+            Tools.FileCopy(FileDaily, FortDaily);
+            Tools.FileStringReplace(FortFile, 1, ''''+ExtractFileName(FileDaily)+'''');
+          end
+        else
+          begin
+            Tools.FileStringReplace(FortFile, 1, ''''+OldDailyFilename+'''');
+            DailyFilename:=OldDailyFilename;
+            FortDaily:=OldFortDaily;
+          end;
       end;
     end;
 end;

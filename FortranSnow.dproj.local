@@ -2,13 +2,15 @@
 <BorlandProject>
 	<Transactions>
     <Transaction>1899.12.30 00:00:00.000.609,=C:\Documents and Settings\Арсений\Мои документы\Dropbox\SnowInterface\FortranSnow.todo</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.501,C:\Users\Арсений Амербаев\Dropbox\SnowInterface\GraphInit.dfm=C:\Users\Арсений Амербаев\Dropbox\SnowInterface\Unit1.dfm</Transaction>
     <Transaction>1899.12.30 00:00:00.000.200,C:\Users\Амербаев\Dropbox\SnowInterface\Graph.pas=C:\Users\Амербаев\Dropbox\SnowInterface\Unit1.pas</Transaction>
-    <Transaction>1899.12.30 00:00:00.000.200,C:\Users\Амербаев\Dropbox\SnowInterface\Graph.dfm=C:\Users\Амербаев\Dropbox\SnowInterface\Unit1.dfm</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.177,=C:\Users\Арсений Амербаев\Dropbox\SnowInterface\Unit1.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.501,C:\Users\Арсений Амербаев\Dropbox\SnowInterface\GraphInit.pas=C:\Users\Арсений Амербаев\Dropbox\SnowInterface\Unit1.pas</Transaction>
     <Transaction>1899.12.30 00:00:00.000.989,=C:\Users\Амербаев\Dropbox\SnowInterface\Unit1.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.200,C:\Users\Амербаев\Dropbox\SnowInterface\Graph.dfm=C:\Users\Амербаев\Dropbox\SnowInterface\Unit1.dfm</Transaction>
     <Transaction>1899.12.30 00:00:00.000.120,C:\Users\Амербаев\Dropbox\SnowInterface\GraphView.pas=C:\Users\Амербаев\Dropbox\SnowInterface\Graph.pas</Transaction>
     <Transaction>1899.12.30 00:00:00.000.120,C:\Users\Амербаев\Dropbox\SnowInterface\GraphView.dfm=C:\Users\Амербаев\Dropbox\SnowInterface\Graph.dfm</Transaction>
-    <Transaction>2014.05.14 12:29:47.177,=C:\Users\Арсений Амербаев\Dropbox\SnowInterface\Unit1.pas</Transaction>
-    <Transaction>2014.05.14 12:41:54.501,C:\Users\Арсений Амербаев\Dropbox\SnowInterface\GraphInit.pas=C:\Users\Арсений Амербаев\Dropbox\SnowInterface\Unit1.pas</Transaction>
-    <Transaction>2014.05.14 12:41:54.501,C:\Users\Арсений Амербаев\Dropbox\SnowInterface\GraphInit.dfm=C:\Users\Арсений Амербаев\Dropbox\SnowInterface\Unit1.dfm</Transaction>
+    <Transaction>2014.06.11 13:30:41.905,=C:\Users\Арсений Амербаев\Documents\GitHub\snow_interface\Unit1.pas</Transaction>
+    <Transaction>2014.06.11 13:35:19.013,C:\Users\Арсений Амербаев\Documents\GitHub\snow_interface\ToolsUnit.pas=C:\Users\Арсений Амербаев\Documents\GitHub\snow_interface\Unit1.pas</Transaction>
   </Transactions>
 </BorlandProject>

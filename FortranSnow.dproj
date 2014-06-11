@@ -103,6 +103,7 @@
             <Form>InitialGraph</Form>
             <FormType>dfm</FormType>
         </DCCReference>
+        <DCCReference Include="ToolsUnit.pas"/>
         <None Include="FortranSnow.todo"/>
         <BuildConfiguration Include="Debug">
             <Key>Cfg_2</Key>
