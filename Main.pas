@@ -155,7 +155,7 @@ begin
   Calculate;
 end;
 
-//Выход
+//Выход из программы
 procedure TMainForm.ExitMenuBtnClick(Sender: TObject);
 begin
   MainForm.Close;
