@@ -36,10 +36,16 @@ begin
   FormEditor.MemoRed.Lines.LoadFromFile(ExtractFilePath(Application.ExeName)+'fortfiles\'+Main.DailyFilename);
 end;
 
+procedure InitCon;
+begin
+  FormEditor.MemoRed.Lines.LoadFromFile(ExtractFilePath(Application.ExeName)+'fortfiles\SNOWDAT');
+end;
+
 procedure TFormEditor.FormShow(Sender: TObject);
 begin
   case Main.EditFile of
     0: Daily;
+    1: InitCon;
   end;
 end;
 

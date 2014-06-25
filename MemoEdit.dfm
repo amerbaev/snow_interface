@@ -21,7 +21,7 @@ object FormEditor: TFormEditor
     Width = 426
     Height = 223
     Align = alClient
-    Alignment = taCenter
+    ScrollBars = ssVertical
     TabOrder = 0
   end
   object MainMenu1: TMainMenu

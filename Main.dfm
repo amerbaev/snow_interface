@@ -244,9 +244,11 @@ object MainForm: TMainForm
       Caption = #1055#1088#1072#1074#1082#1072
       object DailyEditMenuBtn: TMenuItem
         Caption = #1042#1093#1086#1076#1085#1099#1077' '#1076#1072#1085#1085#1099#1077
+        OnClick = DailyEditMenuBtnClick
       end
       object InitConEditMenuBtn: TMenuItem
         Caption = #1053#1072#1095#1072#1083#1100#1085#1099#1077' '#1091#1089#1083#1086#1074#1080#1103
+        OnClick = InitConEditMenuBtnClick
       end
     end
   end

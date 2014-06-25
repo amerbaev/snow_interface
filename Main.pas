@@ -65,6 +65,8 @@ type
     procedure FormCreate(Sender: TObject);
     procedure btnReloadClick(Sender: TObject);
     procedure btnInitialClick(Sender: TObject);
+    procedure DailyEditMenuBtnClick(Sender: TObject);
+    procedure InitConEditMenuBtnClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -79,10 +81,11 @@ var
   TCR, RNEW, ESN, ULMAX0, UL0: Real;
   FileInitCon, FileDailyData, FileParam, FileDatas, FileZones, DailyFilename: string;
   DailyAnswer: Boolean;
+  EditFile: Integer;
 
 implementation
 
-uses ContrPar, ParMod, GraphView, GraphInit, ToolsUnit, DailyQuestion;
+uses ContrPar, ParMod, GraphView, GraphInit, ToolsUnit, DailyQuestion, MemoEdit;
 
 {$R *.dfm}
 
@@ -316,6 +319,12 @@ begin
 end;
 
 //Load another SNOWDAT file
+procedure TMainForm.InitConEditMenuBtnClick(Sender: TObject);
+begin
+  EditFile:=1;
+  FormEditor.ShowModal;
+end;
+
 procedure TMainForm.InitialOpenMenuBtnClick(Sender: TObject);
 var
   FortFile:String;
@@ -347,6 +356,12 @@ begin
       if ( FileParam <> FortFile ) then
         Tools.FileCopy(FileParam, FortFile );
     end;
+end;
+
+procedure TMainForm.DailyEditMenuBtnClick(Sender: TObject);
+begin
+  EditFile:=0;
+  FormEditor.ShowModal;
 end;
 
 //Load another DATAS1.ARE file
