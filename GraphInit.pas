@@ -61,16 +61,21 @@ begin
     ShowMessage('Дата начала периода превышает дату его конца, выберите другие значения')
   else
   begin
+    // Clear old series
     ChartTemp.Series[0].Clear;
     ChartPrec.Series[0].Clear;
+    // Fill new series
     for i := ComboBoxFrom.ItemIndex to ComboBoxTo.ItemIndex do
     begin
-      ChartTemp.Series[0].Add(StrToFloat(SGData.Cells[2,i+1]), StringReplace(SGData.Cells[1, i+1],',','.',[rfReplaceAll]), clRed);
-      ChartPrec.Series[0].Add(StrToFloat(SGData.Cells[3,i+1]), StringReplace(SGData.Cells[1, i+1],',','.',[rfReplaceAll]), clBlue);
+      ChartTemp.Series[0].Add(StrToFloat(SGData.Cells[2,i+1]),
+            StringReplace(SGData.Cells[1, i+1],',','.',[rfReplaceAll]), clRed);
+      ChartPrec.Series[0].Add(StrToFloat(SGData.Cells[3,i+1]),
+            StringReplace(SGData.Cells[1, i+1],',','.',[rfReplaceAll]), clBlue);
     end;
   end;
 end;
 
+//Size matching
 procedure TInitialGraph.ButtonResizeClick(Sender: TObject);
 begin
   PanelChart.Height:=InitialGraph.ClientHeight;
@@ -111,10 +116,14 @@ var
   TmpString: string;
 begin
   StrList:=TStringList.Create;
-  StrList.LoadFromFile(ExtractFilePath(Application.ExeName)+'fortfiles\'+Main.DailyFilename);
+  StrList.LoadFromFile(ExtractFilePath(Application.ExeName)+'fortfiles\'
+                                                            +Main.DailyFilename);
+  // Clear empty strings
   for i := 2 to StrList.Count-1 do
     if Length(Trim(StrList.Strings[i]))=0 then
       StrList.Delete(i);
+
+  // Fill stringlist and graph
   SGData.RowCount:=StrList.Count;
   for i := 1 to StrList.Count-1 do
   begin
@@ -130,6 +139,8 @@ begin
     SGData.Cells[3,i]:=TmpStringList.Strings[2]; //Precipitation
     TmpStringList.Free;
   end;
+
+  //Fill combobox
   for i := 1 to SGData.RowCount-1 do
   begin
     ComboBoxFrom.Items.Add(StringReplace(SGData.Cells[1, i],',','.',[rfReplaceAll]));
@@ -139,8 +150,10 @@ begin
   ComboBoxTo.ItemIndex:=ComboBoxTo.Items.Count-1;
   for i := ComboBoxFrom.ItemIndex to ComboBoxTo.ItemIndex do
   begin
-    ChartTemp.Series[0].Add(StrToFloat(SGData.Cells[2,i+1]), StringReplace(SGData.Cells[1, i+1],',','.',[rfReplaceAll]), clRed);
-    ChartPrec.Series[0].Add(StrToFloat(SGData.Cells[3,i+1]), StringReplace(SGData.Cells[1, i+1],',','.',[rfReplaceAll]), clBlue);
+    ChartTemp.Series[0].Add(StrToFloat(SGData.Cells[2,i+1]),
+              StringReplace(SGData.Cells[1, i+1],',','.',[rfReplaceAll]), clRed);
+    ChartPrec.Series[0].Add(StrToFloat(SGData.Cells[3,i+1]),
+              StringReplace(SGData.Cells[1, i+1],',','.',[rfReplaceAll]), clBlue);
   end;
 
   StrList.Free;
