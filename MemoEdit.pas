@@ -38,6 +38,7 @@ uses Main;
 
 {$R *.dfm}
 
+// Save on exit
 procedure Exit;
 begin
   case MessageBox(0, 'Сохранить изменения?', 'Выход', MB_YESNO) of
@@ -50,14 +51,20 @@ begin
   Exit;
 end;
 
+//Load file
 procedure TFormEditor.FormShow(Sender: TObject);
 begin
   case Main.EditFile of
-    0: FormEditor.MemoRed.Lines.LoadFromFile(ExtractFilePath(Application.ExeName)+'fortfiles\'+Main.DailyFilename);
-    1: FormEditor.MemoRed.Lines.LoadFromFile(ExtractFilePath(Application.ExeName)+'fortfiles\SNOWDAT');
+    // Daily
+    0: FormEditor.MemoRed.Lines.LoadFromFile(ExtractFilePath(Application.ExeName)
+                                              +'fortfiles\'+Main.DailyFilename);
+    // Init
+    1: FormEditor.MemoRed.Lines.LoadFromFile(ExtractFilePath(Application.ExeName)
+                                                          +'fortfiles\SNOWDAT');
   end;
 end;
 
+// Save on Ctrl+S
 procedure TFormEditor.MemoRedKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
@@ -67,20 +74,27 @@ begin
   end;
 end;
 
+// File-Save
 procedure TFormEditor.N2Click(Sender: TObject);
 begin
   case Main.EditFile of
-    0: MemoRed.Lines.SaveToFile(ExtractFilePath(Application.ExeName)+'fortfiles\'+Main.DailyFilename);
-    1: MemoRed.Lines.SaveToFile(ExtractFilePath(Application.ExeName)+'fortfiles\SNOWDAT');
+    // Daily
+    0: MemoRed.Lines.SaveToFile(ExtractFilePath(Application.ExeName)
+                                              +'fortfiles\'+Main.DailyFilename);
+    // Init
+    1: MemoRed.Lines.SaveToFile(ExtractFilePath(Application.ExeName)
+                                                          +'fortfiles\SNOWDAT');
   end;
 end;
 
+// File-Save as
 procedure TFormEditor.N3Click(Sender: TObject);
 begin
   SaveDialog1.Execute();
   MemoRed.Lines.SaveToFile(SaveDialog1.FileName);
 end;
 
+// File-Exit
 procedure TFormEditor.N5Click(Sender: TObject);
 begin
   Exit;
