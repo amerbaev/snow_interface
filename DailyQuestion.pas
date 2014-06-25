@@ -28,12 +28,14 @@ uses Main;
 
 {$R *.dfm}
 
+// Locate new daily file
 procedure TFormQuest.LocateClick(Sender: TObject);
 begin
   Main.DailyAnswer:=True;
   FormQuest.Close;
 end;
 
+// Keep old daily file
 procedure TFormQuest.OldClick(Sender: TObject);
 begin
   Main.DailyAnswer:=False;

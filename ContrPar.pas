@@ -45,15 +45,18 @@ end;
 
 procedure TContParam.btOKClick(Sender: TObject);
 begin
+  // Replace dividers
   edtN.Text:=StringReplace(edtN.Text,'.',',',[rfReplaceAll]);
   edtTAU.Text:=StringReplace(edtTAU.Text,'.',',',[rfReplaceAll]);
   edtDUR.Text:=StringReplace(edtDUR.Text,'.',',',[rfReplaceAll]);
+  //Save to main variables
   Main.NumOfDays:=StrToFloat(edtN.Text);
   Main.TSforCalc:=StrToFloat(edtTAU.Text);
   Main.TSforInp:=StrToFloat(edtDUR.Text);
   ContParam.Close;
 end;
 
+// Show curent values of variables
 procedure TContParam.FormShow(Sender: TObject);
 begin
   edtN.Text:=FloatToStr(Main.NumOfDays);
