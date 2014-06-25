@@ -35,6 +35,7 @@ object FormEditor: TFormEditor
       end
       object N3: TMenuItem
         Caption = #1057#1086#1093#1088#1072#1085#1080#1090#1100' '#1082#1072#1082
+        OnClick = N3Click
       end
       object N4: TMenuItem
         Caption = '-'
@@ -43,5 +44,9 @@ object FormEditor: TFormEditor
         Caption = #1042#1099#1093#1086#1076
       end
     end
+  end
+  object SaveDialog1: TSaveDialog
+    Left = 200
+    Top = 120
   end
 end

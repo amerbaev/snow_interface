@@ -15,8 +15,10 @@ type
     N3: TMenuItem;
     N4: TMenuItem;
     N5: TMenuItem;
+    SaveDialog1: TSaveDialog;
     procedure FormShow(Sender: TObject);
     procedure N2Click(Sender: TObject);
+    procedure N3Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -50,14 +52,18 @@ begin
   end;
 end;
 
-
-
 procedure TFormEditor.N2Click(Sender: TObject);
 begin
   case Main.EditFile of
     0: MemoRed.Lines.SaveToFile(ExtractFilePath(Application.ExeName)+'fortfiles\'+Main.DailyFilename);
     1: MemoRed.Lines.SaveToFile(ExtractFilePath(Application.ExeName)+'fortfiles\SNOWDAT');
   end;
+end;
+
+procedure TFormEditor.N3Click(Sender: TObject);
+begin
+  SaveDialog1.Execute();
+  MemoRed.Lines.SaveToFile(SaveDialog1.FileName);
 end;
 
 end.
