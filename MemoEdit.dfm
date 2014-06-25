@@ -12,6 +12,7 @@ object FormEditor: TFormEditor
   Font.Style = []
   Menu = MainMenu1
   OldCreateOrder = False
+  OnClose = FormClose
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
@@ -23,6 +24,7 @@ object FormEditor: TFormEditor
     Align = alClient
     ScrollBars = ssVertical
     TabOrder = 0
+    OnKeyDown = MemoRedKeyDown
   end
   object MainMenu1: TMainMenu
     Left = 96
@@ -42,6 +44,7 @@ object FormEditor: TFormEditor
       end
       object N5: TMenuItem
         Caption = #1042#1099#1093#1086#1076
+        OnClick = N5Click
       end
     end
   end

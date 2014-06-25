@@ -19,6 +19,10 @@ type
     procedure FormShow(Sender: TObject);
     procedure N2Click(Sender: TObject);
     procedure N3Click(Sender: TObject);
+    procedure MemoRedKeyDown(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure N5Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -34,21 +38,32 @@ uses Main;
 
 {$R *.dfm}
 
-procedure Daily;
+procedure Exit;
 begin
-  FormEditor.MemoRed.Lines.LoadFromFile(ExtractFilePath(Application.ExeName)+'fortfiles\'+Main.DailyFilename);
+  case MessageBox(0, 'Сохранить изменения?', 'Выход', MB_YESNO) of
+    IDYES: FormEditor.N2.Click;
+  end;
 end;
 
-procedure InitCon;
+procedure TFormEditor.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
-  FormEditor.MemoRed.Lines.LoadFromFile(ExtractFilePath(Application.ExeName)+'fortfiles\SNOWDAT');
+  Exit;
 end;
 
 procedure TFormEditor.FormShow(Sender: TObject);
 begin
   case Main.EditFile of
-    0: Daily;
-    1: InitCon;
+    0: FormEditor.MemoRed.Lines.LoadFromFile(ExtractFilePath(Application.ExeName)+'fortfiles\'+Main.DailyFilename);
+    1: FormEditor.MemoRed.Lines.LoadFromFile(ExtractFilePath(Application.ExeName)+'fortfiles\SNOWDAT');
+  end;
+end;
+
+procedure TFormEditor.MemoRedKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  if(Key = Ord('S')) and (ssCtrl in Shift) then
+  begin
+    FormEditor.N2.Click;
   end;
 end;
 
@@ -64,6 +79,11 @@ procedure TFormEditor.N3Click(Sender: TObject);
 begin
   SaveDialog1.Execute();
   MemoRed.Lines.SaveToFile(SaveDialog1.FileName);
+end;
+
+procedure TFormEditor.N5Click(Sender: TObject);
+begin
+  Exit;
 end;
 
 end.
