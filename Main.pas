@@ -149,7 +149,7 @@ begin
   ShellExecute(Application.Handle,'open','snowars.exe',nil,'...\fortfiles',SW_RESTORE);
 end;
 
-//Вызов запуска программы расчета
+//Вызов для запуска программы расчета
 procedure TMainForm.btnRunClick(Sender: TObject);
 begin
   Calculate;
