@@ -31,6 +31,7 @@ object FormEditor: TFormEditor
       Caption = #1060#1072#1081#1083
       object N2: TMenuItem
         Caption = #1057#1086#1093#1088#1072#1085#1080#1090#1100
+        OnClick = N2Click
       end
       object N3: TMenuItem
         Caption = #1057#1086#1093#1088#1072#1085#1080#1090#1100' '#1082#1072#1082

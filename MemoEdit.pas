@@ -16,6 +16,7 @@ type
     N4: TMenuItem;
     N5: TMenuItem;
     procedure FormShow(Sender: TObject);
+    procedure N2Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -46,6 +47,16 @@ begin
   case Main.EditFile of
     0: Daily;
     1: InitCon;
+  end;
+end;
+
+
+
+procedure TFormEditor.N2Click(Sender: TObject);
+begin
+  case Main.EditFile of
+    0: MemoRed.Lines.SaveToFile(ExtractFilePath(Application.ExeName)+'fortfiles\'+Main.DailyFilename);
+    1: MemoRed.Lines.SaveToFile(ExtractFilePath(Application.ExeName)+'fortfiles\SNOWDAT');
   end;
 end;
 
