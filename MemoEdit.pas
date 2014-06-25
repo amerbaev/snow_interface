@@ -15,6 +15,7 @@ type
     N3: TMenuItem;
     N4: TMenuItem;
     N5: TMenuItem;
+    procedure FormShow(Sender: TObject);
   private
     { Private declarations }
   public
@@ -26,6 +27,20 @@ var
 
 implementation
 
+uses Main;
+
 {$R *.dfm}
+
+procedure Daily;
+begin
+  FormEditor.MemoRed.Lines.LoadFromFile(ExtractFilePath(Application.ExeName)+'fortfiles\'+Main.DailyFilename);
+end;
+
+procedure TFormEditor.FormShow(Sender: TObject);
+begin
+  case Main.EditFile of
+    0: Daily;
+  end;
+end;
 
 end.

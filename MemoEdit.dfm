@@ -12,6 +12,7 @@ object FormEditor: TFormEditor
   Font.Style = []
   Menu = MainMenu1
   OldCreateOrder = False
+  OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
   object MemoRed: TMemo
