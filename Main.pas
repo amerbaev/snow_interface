@@ -405,6 +405,7 @@ begin
                                           of DailyData file to ZONES file folder}
       Tools.FileCopy(FileZones, FortFile);
 
+      //Daily file
       if FileExists(FileDaily) then
       begin
         FortDaily:= ExtractFilePath(Application.ExeName)+'fortfiles\'+ DailyFilename;
@@ -412,16 +413,17 @@ begin
       end
       else
       begin
-        if DailyAnswer then
+        if DailyAnswer then // Execute dialog
           if dlgOpenDaily.Execute then
           begin
-            FileDaily:=dlgOpenDaily.FileName;
+            FileDaily:=dlgOpenDaily.FileName; // New daily
             DeleteFile(OldFortDaily);//Delete old DailyData file
             Tools.FileCopy(FileDaily, FortDaily);
             Tools.FileStringReplace(FortFile, 1, ''''+ExtractFileName(FileDaily)+'''');
           end
         else
           begin
+            // Keep old file
             Tools.FileStringReplace(FortFile, 1, ''''+OldDailyFilename+'''');
             DailyFilename:=OldDailyFilename;
             FortDaily:=OldFortDaily;

@@ -70,7 +70,7 @@ procedure TFormEditor.MemoRedKeyDown(Sender: TObject; var Key: Word;
 begin
   if(Key = Ord('S')) and (ssCtrl in Shift) then
   begin
-    FormEditor.N2.Click;
+    FormEditor.N2.Click; // Save
   end;
 end;
 
