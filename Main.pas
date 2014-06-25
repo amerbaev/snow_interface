@@ -92,7 +92,7 @@ uses ContrPar, ParMod, GraphView, GraphInit, ToolsUnit, DailyQuestion, MemoEdit;
 var
   Tools: ToolsUnit.TTools;
 
-//Rewrite file SNOWDAT
+//Перезаписать файл SNOWDAT
 procedure SnowdatRewrite;
 var
   M:TStrings;
@@ -104,7 +104,7 @@ begin
   M.Free;
 end;
 
-//Rewrite file ZONES.ARE
+//Перезаписать файл ZONES.ARE
 procedure ZonesRewrite;
 var
   M:TStrings;
@@ -116,7 +116,7 @@ begin
   M.Free;
 end;
 
-//Rewrite file PARAM.ARE
+//Перезаписать файл PARAM.ARE
 procedure ParamRewrite;
 var
   M:TStrings;
@@ -130,7 +130,7 @@ begin
   M.Free;
 end;
 
-//Rewrite file DATAS1.ARE
+//Перезаписать файл DATAS1.ARE
 procedure Datas1Rewrite;
 var
   M:TStrings;
@@ -143,58 +143,58 @@ begin
   M.Free;
 end;
 
-//Run calculation program
+//Запуск программы расчета
 procedure Calculate;
 begin
   ShellExecute(Application.Handle,'open','snowars.exe',nil,'...\fortfiles',SW_RESTORE);
 end;
 
-//Call for run calculation program
+//Вызов запуска программы расчета
 procedure TMainForm.btnRunClick(Sender: TObject);
 begin
   Calculate;
 end;
 
-//Exit
+//Выход
 procedure TMainForm.ExitMenuBtnClick(Sender: TObject);
 begin
   MainForm.Close;
 end;
 
-//Open control parameters edit window
+//Открытие окна редактирования управляющих параметров
 procedure TMainForm.ControlParEditMenuBtnClick(Sender: TObject);
 begin
   ContParam.ShowModal;
   btnReload.Click;
 end;
 
-//Open model parameters edit window
+//Открытие окна редактирования параметров модели
 procedure TMainForm.ModelParEditMenuBtnClick(Sender: TObject);
 begin
   ModParam.ShowModal;
   btnReload.Click;
 end;
 
-//Show charts of results
+//Показать графики результатов вычислений
 procedure TMainForm.btnGraphClick(Sender: TObject);
 begin
   Graph.ShowModal;
 end;
 
-//Open control parameters edit window
+//Показать графики начальных параметров
 procedure TMainForm.btnInitialClick(Sender: TObject);
 begin
   InitialGraph.ShowModal;
 end;
 
-//Editing of control parameters
+//Редактирование управляющих параметров
 procedure TMainForm.btnRedContrClick(Sender: TObject);
 begin
   ContParam.ShowModal;
   btnReload.Click;
 end;
 
-//Open model parameters edit window
+//Редактирование параметров модели
 procedure TMainForm.btnRedModelClick(Sender: TObject);
 begin
   ModParam.ShowModal;
@@ -203,7 +203,7 @@ begin
   ZonesRewrite;
 end;
 
-//Reload all datas
+//Перезагрузить все данные
 procedure TMainForm.btnReloadClick(Sender: TObject);
 begin
   lblNumofDaysVal.Caption:=FloatToStr(NumOfDays);
@@ -216,9 +216,9 @@ begin
   lblELEV0val.Caption:=FloatToStr(Elev0);
 end;
 
-//Read all data from SNOWDAT file
+//Прочитать все данные из файла SNOWDAT
 procedure ReadSnowdat(const FileName: string);
-  const numofvar = 2; //Variables: Depth and Density
+  const numofvar = 2; //Переменные: Depth and Density
 var
   M:TStrings;
   FullString:string;
@@ -238,7 +238,7 @@ begin
   M.Free;
 end;
 
-//Read all data from ZONES.ARE file
+//Прочитать все данные из файла ZONES.ARE
 procedure ReadZones(const FileName: string);
   const numofvar = 3;
 var
@@ -266,7 +266,7 @@ begin
   M.Free;
 end;
 
-//Read all data from PARAM.ARE file
+//Прочитать все данные из файла PARAM.ARE
 procedure ReadParam(const FileName: string);
   const numofvar_1 = 3;
   const numofvar_2 = 1;
@@ -295,9 +295,9 @@ begin
   M.Free;
 end;
 
-//Read all data from DATAS1.ARE file
+//Прочитать все данные из файла DATAS1.ARE
 procedure ReadDatas1(const FileName: string);
-  const numofvar = 5; { variables: TCR, RNEW, ESN, ULMAX0, UL0 }
+  const numofvar = 5; { Переменные: TCR, RNEW, ESN, ULMAX0, UL0 }
 var
   M:TStrings;
   FullString:string;
@@ -319,7 +319,7 @@ begin
   M.Free;
 end;
 
-//Load another SNOWDAT file
+//Загрузить другой файл SNOWDAT
 procedure TMainForm.InitConEditMenuBtnClick(Sender: TObject);
 begin
   EditFile:=1;
@@ -340,7 +340,7 @@ begin
     end;
 end;
 
-//Load another PARAM.ARE file
+//Загрузить другой файл PARAM.ARE
 procedure TMainForm.ParamOpenMenuBtnClick(Sender: TObject);
 var
   FortFile:String;
@@ -365,7 +365,7 @@ begin
   FormEditor.ShowModal;
 end;
 
-//Load another DATAS1.ARE file
+//Загрузить другой файл DATAS1.ARE
 procedure TMainForm.Datas1OpenMenuBtnClick(Sender: TObject);
 var
   FortFile:String;
@@ -384,7 +384,7 @@ begin
     end;
 end;
 
-//Load another ZONES.ARE file
+//Загрузить другой файл ZONES.ARE
 procedure TMainForm.ZonesOpenMenuBtnClick(Sender: TObject);
 var
   FortFile, FileDaily, FortDaily, OldDailyFilename, OldFortDaily:String;
@@ -395,14 +395,14 @@ begin
 
       FortFile:= ExtractFilePath(Application.ExeName)+'fortfiles\ZONES.ARE';
       FortDaily:= ExtractFilePath(Application.ExeName)+'fortfiles\'+ DailyFilename;
-                                                    //Path to old DailyData file
+                                                //Путь к старому файлу DailyData
 
       FileZones:=dlgOpenZones.FileName;
       OldDailyFilename:=DailyFilename;
       OldFortDaily:=FortDaily;
       ReadZones(FileZones);
-      FileDaily:= ExtractFilePath(FileZones)+DailyFilename;{Substitute new name
-                                          of DailyData file to ZONES file folder}
+      FileDaily:= ExtractFilePath(FileZones)+DailyFilename;{Совмещаем новое имя
+                                      файла DailyData c директорией файла ZONES}
       Tools.FileCopy(FileZones, FortFile);
 
       //Daily file
@@ -413,17 +413,17 @@ begin
       end
       else
       begin
-        if DailyAnswer then // Execute dialog
+        if DailyAnswer then // Вызвов диалога
           if dlgOpenDaily.Execute then
           begin
-            FileDaily:=dlgOpenDaily.FileName; // New daily
-            DeleteFile(OldFortDaily);//Delete old DailyData file
+            FileDaily:=dlgOpenDaily.FileName; // Новый Daily
+            DeleteFile(OldFortDaily);//Удалить старый файл DailyData
             Tools.FileCopy(FileDaily, FortDaily);
             Tools.FileStringReplace(FortFile, 1, ''''+ExtractFileName(FileDaily)+'''');
           end
         else
           begin
-            // Keep old file
+            // Оставить старый файл
             Tools.FileStringReplace(FortFile, 1, ''''+OldDailyFilename+'''');
             DailyFilename:=OldDailyFilename;
             FortDaily:=OldFortDaily;
@@ -432,14 +432,14 @@ begin
     end;
 end;
 
-//Open program, read all existing files
+//Открытие программы, чтение всех имеющихся файлов
 procedure TMainForm.FormCreate(Sender: TObject);
-begin //Load all files
+begin //Подгрузить все файлы
   ReadSnowdat(ExtractFilePath(Application.ExeName)+'fortfiles\SNOWDAT');
   ReadParam(ExtractFilePath(Application.ExeName)+'fortfiles\PARAM.ARE');
   ReadDatas1(ExtractFilePath(Application.ExeName)+'fortfiles\DATAS1.ARE');
   ReadZones(ExtractFilePath(Application.ExeName)+'fortfiles\ZONES.ARE');
-  btnReload.Click; //Show new data
+  btnReload.Click; //Показать вс данные
 end;
 
 end.
