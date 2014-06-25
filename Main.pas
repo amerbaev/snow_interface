@@ -123,7 +123,8 @@ var
 begin
   M:=TStringList.Create;
   M.LoadFromFile(ExtractFilePath(Application.ExeName)+'fortfiles\PARAM.ARE');
-  M.Strings[2]:=FloatToStr(NumOfDays)+' '+FloatToStr(TSforCalc)+' '+FloatToStr(TSforInp);
+  M.Strings[2]:=FloatToStr(NumOfDays)+' '+FloatToStr(TSforCalc)+' '
+                                                          +FloatToStr(TSforInp);
   M.Strings[4]:=FloatToStr(GMELT);
   M.SaveToFile(ExtractFilePath(Application.ExeName)+'fortfiles\PARAM.ARE');
   M.Free;

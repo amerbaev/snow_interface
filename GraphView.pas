@@ -267,9 +267,12 @@ begin
 
   for i := CBFrom.ItemIndex to CBTo.ItemIndex do
   begin
-    TChartSWE.Series[0].Add(StrToFloat(SGRez.Cells[2,i+1]), StringReplace(SGRez.Cells[1, i+1],',','.',[rfReplaceAll]), clPurple);
-    TChartDepth.Series[0].Add(StrToFloat(SGRez.Cells[3,i+1]), StringReplace(SGRez.Cells[1, i+1],',','.',[rfReplaceAll]), clBlue);
-    TChartMelt.Series[0].Add(StrToFloat(SGRez.Cells[4,i+1]), StringReplace(SGRez.Cells[1, i+1],',','.',[rfReplaceAll]), clAqua);
+    TChartSWE.Series[0].Add(StrToFloat(SGRez.Cells[2,i+1]),
+            StringReplace(SGRez.Cells[1, i+1],',','.',[rfReplaceAll]), clPurple);
+    TChartDepth.Series[0].Add(StrToFloat(SGRez.Cells[3,i+1]),
+            StringReplace(SGRez.Cells[1, i+1],',','.',[rfReplaceAll]), clBlue);
+    TChartMelt.Series[0].Add(StrToFloat(SGRez.Cells[4,i+1]),
+            StringReplace(SGRez.Cells[1, i+1],',','.',[rfReplaceAll]), clAqua);
   end;
 
   SL.Free;
