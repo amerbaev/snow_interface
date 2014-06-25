@@ -7,7 +7,8 @@ uses
   ParMod in 'ParMod.pas' {ModParam},
   GraphView in 'GraphView.pas' {Graph},
   GraphInit in 'GraphInit.pas' {InitialGraph},
-  ToolsUnit in 'ToolsUnit.pas';
+  ToolsUnit in 'ToolsUnit.pas',
+  DailyQuestion in 'DailyQuestion.pas' {FormQuest};
 
 {$R *.res}
 
@@ -18,5 +19,6 @@ begin
   Application.CreateForm(TModParam, ModParam);
   Application.CreateForm(TGraph, Graph);
   Application.CreateForm(TInitialGraph, InitialGraph);
+  Application.CreateForm(TFormQuest, FormQuest);
   Application.Run;
 end.

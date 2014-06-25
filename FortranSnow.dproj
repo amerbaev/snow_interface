@@ -104,6 +104,10 @@
             <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="ToolsUnit.pas"/>
+        <DCCReference Include="DailyQuestion.pas">
+            <Form>FormQuest</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
         <None Include="FortranSnow.todo"/>
         <BuildConfiguration Include="Debug">
             <Key>Cfg_2</Key>
