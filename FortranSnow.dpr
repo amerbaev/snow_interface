@@ -8,7 +8,8 @@ uses
   GraphView in 'GraphView.pas' {Graph},
   GraphInit in 'GraphInit.pas' {InitialGraph},
   ToolsUnit in 'ToolsUnit.pas',
-  DailyQuestion in 'DailyQuestion.pas' {FormQuest};
+  DailyQuestion in 'DailyQuestion.pas' {FormQuest},
+  MemoEdit in 'MemoEdit.pas' {FormEditor};
 
 {$R *.res}
 
@@ -20,5 +21,6 @@ begin
   Application.CreateForm(TGraph, Graph);
   Application.CreateForm(TInitialGraph, InitialGraph);
   Application.CreateForm(TFormQuest, FormQuest);
+  Application.CreateForm(TFormEditor, FormEditor);
   Application.Run;
 end.
