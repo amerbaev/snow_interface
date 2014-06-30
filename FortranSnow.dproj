@@ -108,6 +108,10 @@
             <Form>FormQuest</Form>
             <FormType>dfm</FormType>
         </DCCReference>
+        <DCCReference Include="MemoEdit.pas">
+            <Form>FormEditor</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
         <None Include="FortranSnow.todo"/>
         <BuildConfiguration Include="Debug">
             <Key>Cfg_2</Key>
